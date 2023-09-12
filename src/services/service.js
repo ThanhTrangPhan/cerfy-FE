@@ -15,7 +15,7 @@ export const operatorInstance = (web3) => {
     console.log(nodeOp);
     return new web3.eth.Contract(
         nodeOp, // abi of SC token
-        0x68a231F23D539E3ca6cbCEDcAd8778C325a0219c // address of  token
+        "0x68a231F23D539E3ca6cbCEDcAd8778C325a0219c" // address of  token
     )
 }
 
