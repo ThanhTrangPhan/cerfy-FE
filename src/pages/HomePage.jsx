@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import { controllerInstance, operatorInstance } from "services/service";
-import ethers from ethers;
+import Web3 from "web3";
 import { Input } from 'antd';
 
 export const HomePage = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const [transAddress, setTransAddress] = useState();
   const [transAmount, setTransAmount] = useState();
-  const [web3Instance, setWeb3] = useState(null);
+  const [web3, setWeb3] = useState(null);
 
   const history = useHistory();
   const { base, setBase } = useGlobalContext();
@@ -27,11 +27,10 @@ export const HomePage = () => {
         const accounts =  await window.ethereum.request({
           method: "eth_requestAccounts",
         });
-       
+        const web3Instance = new Web3(window.ethereum);
+        setWeb3(web3Instance);
         if (accounts.length > 0) {
           setWalletAddress(accounts[0]);
-          const web3 = new Web3(window.ethereum);
-          setWeb3(web3);
         } else {
           console.log("Connect to MetaMask using the Connect button");
         }
@@ -62,26 +61,15 @@ export const HomePage = () => {
   if (isLoading) return "Loading...";
 
   const connectWallet = async () => {
-    
     if (
       typeof window !== "undefined" &&
       typeof window.ethereum !== "undefined"
     ) {
       try {
-        let provider;
-        if (window.ethereum) {
-          provider = window.ethereum;
-        } else if (window.web3) {
-          provider = window.web3.currentProvider;
-        } else {
-          window.alert("No Ethereum browser detected! Check out MetaMask");
-        }
-        setWeb3(new Web3(provider));
         const account = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
         setWalletAddress(account[0]);
-
       } catch (error) {
         console.error(error.message);
       }
