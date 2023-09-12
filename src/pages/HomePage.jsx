@@ -11,7 +11,7 @@ export const HomePage = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const [transAddress, setTransAddress] = useState();
   const [transAmount, setTransAmount] = useState();
-  const [web3, setWeb3] = useState(null);
+  const [web3Instance, setWeb3] = useState(null);
 
   const history = useHistory();
   const { base, setBase } = useGlobalContext();
